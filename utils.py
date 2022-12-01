@@ -1,3 +1,28 @@
+from monai.transforms import (
+    Activations,
+    EnsureChannelFirst,
+    AsDiscrete,
+    Compose,
+    LoadImage,
+    RandFlip,
+    RandRotate,
+    RandZoom,
+    ScaleIntensity,
+)
+
+class BreastCancerDataset(torch.utils.data.Dataset):
+    def __init__(self, image_files, labels, transforms):
+        self.image_files = image_files
+        self.labels = labels
+        self.transforms = transforms
+
+    def __len__(self):
+        return len(self.image_files)
+
+    def __getitem__(self, index):
+        return self.transforms(self.image_files[index]), self.labels[index]
+
+
 def path_list(path,mask_present,category):
     '''
     Takes in a path to a folder that has sub folders for each class of image data
@@ -42,3 +67,21 @@ def path_list(path,mask_present,category):
         ]
     print(data_files[0][:15])
     return data_files, num_class, class_names
+
+
+train_transforms = Compose(
+    [
+        LoadImage(image_only=True),
+        EnsureChannelFirst(),
+        ScaleIntensity(),
+        RandRotate(range_x=np.pi / 12, prob=0.5, keep_size=True),
+        RandFlip(spatial_axis=0, prob=0.5),
+        RandZoom(min_zoom=0.9, max_zoom=1.1, prob=0.5),
+    ]
+)
+
+val_transforms = Compose(
+    [LoadImage(image_only=True), EnsureChannelFirst(), ScaleIntensity()])
+
+y_pred_trans = Compose([Activations(softmax=True)])
+y_trans = Compose([AsDiscrete(to_onehot=num_class)])
