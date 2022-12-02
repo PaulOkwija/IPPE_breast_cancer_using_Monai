@@ -1,3 +1,10 @@
+#Run these in terminal: probably needs a github action kinda implementation
+######################################################################
+# !python -c "import monai" || pip install -q "monai-weekly[pillow, tqdm]"
+# !python -c "import matplotlib" || pip install -q matplotlib
+# %matplotlib inline
+######################################################################
+
 # Copyright 2020 MONAI Consortium
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,4 +43,26 @@ from monai.transforms import (
 )
 from monai.utils import set_determinism
 
+
+from utils import path_list
 print_config()
+set_determinism(seed=0)
+
+
+data_files, num_class, class_names = path_list(path,mask_present,category)
+train_transforms = Compose(
+    [
+        LoadImage(image_only=True),
+        EnsureChannelFirst(),
+        ScaleIntensity(),
+        RandRotate(range_x=np.pi / 12, prob=0.5, keep_size=True),
+        RandFlip(spatial_axis=0, prob=0.5),
+        RandZoom(min_zoom=0.9, max_zoom=1.1, prob=0.5),
+    ]
+)
+
+val_transforms = Compose(
+    [LoadImage(image_only=True), EnsureChannelFirst(), ScaleIntensity()])
+
+y_pred_trans = Compose([Activations(softmax=True)])
+y_trans = Compose([AsDiscrete(to_onehot=num_class)])
