@@ -9,6 +9,7 @@ from monai.transforms import (
     RandZoom,
     ScaleIntensity,
 )
+import matplotlib.pyplot as plt
 
 class BreastCancerDataset(torch.utils.data.Dataset):
     def __init__(self, image_files, labels, transforms):
@@ -23,7 +24,7 @@ class BreastCancerDataset(torch.utils.data.Dataset):
         return self.transforms(self.image_files[index]), self.labels[index]
 
 
-def path_list(path,mask_present,category):
+def path_list(path,mask_present,category='images'):
     '''
     Takes in a path to a folder that has sub folders for each class of image data
     Returns:
@@ -38,7 +39,7 @@ def path_list(path,mask_present,category):
     class_names
     num_class = len(class_names)
     if mask_present:
-        if category=='image':
+        if category=='images':
             data_files = [
             [
                 
@@ -68,20 +69,14 @@ def path_list(path,mask_present,category):
     print(data_files[0][:15])
     return data_files, num_class, class_names
 
-
-train_transforms = Compose(
-    [
-        LoadImage(image_only=True),
-        EnsureChannelFirst(),
-        ScaleIntensity(),
-        RandRotate(range_x=np.pi / 12, prob=0.5, keep_size=True),
-        RandFlip(spatial_axis=0, prob=0.5),
-        RandZoom(min_zoom=0.9, max_zoom=1.1, prob=0.5),
-    ]
-)
-
-val_transforms = Compose(
-    [LoadImage(image_only=True), EnsureChannelFirst(), ScaleIntensity()])
-
-y_pred_trans = Compose([Activations(softmax=True)])
-y_trans = Compose([AsDiscrete(to_onehot=num_class)])
+def plot_samples(image_files_list, class_names, image_class, num_total):
+    plt.subplots(3, 3, figsize=(8, 8))
+    for i, k in enumerate(np.random.randint(num_total, size=9)):
+        im = PIL.Image.open(image_files_list[k])
+        arr = np.array(im)
+        plt.subplot(3, 3, i + 1)
+        plt.xlabel(class_names[image_class[k]])
+        plt.axis(False)
+        plt.imshow(arr, cmap="gray", vmin=0, vmax=255)
+    plt.tight_layout()
+    plt.show()
