@@ -220,7 +220,7 @@ def main():
                     best_metric = result
                     best_metric_epoch = epoch + 1
                     torch.save(model.state_dict(), os.path.join(
-                        'models', "best_metric_model.pth"))
+                        "models", "best_metric_model.pth"))
                     print("saved new best metric model")
                 print(
                     f"current epoch: {epoch + 1} current AUC: {result:.4f}"
