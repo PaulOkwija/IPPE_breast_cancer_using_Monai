@@ -76,8 +76,8 @@ y_trans = Compose([AsDiscrete(to_onehot=num_class)])
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--path", "-a", dest="path", help="ip address of probe.", required=True)
-    parser.add_argument("--mask", "-p", dest="masks", default=False, help="Are there masks in the folders", required=True)
+    parser.add_argument("--path", "-p", dest="path", help="image path.", required=True)
+    parser.add_argument("--mask", "-mp", dest="masks", default=False, help="Are there masks in the folders", required=True)
     parser.add_argument("--show_samples","-ss", dest="samples", default=False, help="image output width in pixels")
     parser.add_argument("--batch_size", "-bs", dest="batch_size", type=int,default=2, help="Batch_size")
     parser.add_argument("--epochs", "-ep", dest="epochs", type=int, default=2, help="Number of epochs")
