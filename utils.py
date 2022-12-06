@@ -88,4 +88,4 @@ def plot_samples(image_files_list, class_names, image_class, num_total):
         plt.axis(False)
         plt.imshow(arr, cmap="gray", vmin=0, vmax=255)
     plt.tight_layout()
-    plt.show()
+    plt.savefig("plots/sample_dataset_images.png", dpi = 300)

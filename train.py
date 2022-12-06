@@ -252,7 +252,7 @@ def main():
     y = metric_values
     plt.xlabel("epoch")
     plt.plot(x, y)
-    plt.show()
+    plt.savefig("plots/train_validation_curves.png", dpi = 300)
 
 ##########################################################################
 #Model Evaluation
@@ -284,7 +284,7 @@ def main():
     ax.set_xticklabels(['']+class_names, rotation=270)
     ax.set_yticklabels(['']+class_names)
 
-    plt.show()
+    plt.savefig("plots/confusion_matrix.png", dpi = 300)
 
 
 if __name__ == "__main__":
