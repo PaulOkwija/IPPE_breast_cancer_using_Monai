@@ -114,6 +114,8 @@ def main():
     print(f"Label names: {class_names}")
     print(f"Label counts: {num_each}")
 
+
+    print("##################### Displaying samples images #######################")
     if show_samples:
         plot_samples(image_files_list, class_names, image_class, num_total)
     
