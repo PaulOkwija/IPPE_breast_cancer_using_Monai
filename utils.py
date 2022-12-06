@@ -1,3 +1,4 @@
+import torch
 from monai.transforms import (
     Activations,
     EnsureChannelFirst,
