@@ -1,4 +1,9 @@
+import os
+import matplotlib.pyplot as plt
+import PIL
 import torch
+import numpy as np
+
 from monai.transforms import (
     Activations,
     EnsureChannelFirst,
@@ -10,7 +15,7 @@ from monai.transforms import (
     RandZoom,
     ScaleIntensity,
 )
-import matplotlib.pyplot as plt
+
 
 class BreastCancerDataset(torch.utils.data.Dataset):
     def __init__(self, image_files, labels, transforms):
