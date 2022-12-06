@@ -51,38 +51,38 @@ from utils import *
 
 
 
-print_config()
-set_determinism(seed=0)
 
 
-data_files, num_class, class_names = path_list(path,mask_present,category)
-train_transforms = Compose(
-    [
-        LoadImage(image_only=True),
-        EnsureChannelFirst(),
-        ScaleIntensity(),
-        RandRotate(range_x=np.pi / 12, prob=0.5, keep_size=True),
-        RandFlip(spatial_axis=0, prob=0.5),
-        RandZoom(min_zoom=0.9, max_zoom=1.1, prob=0.5),
-    ]
-)
 
-val_transforms = Compose(
-    [LoadImage(image_only=True), EnsureChannelFirst(), ScaleIntensity()])
+# data_files, num_class, class_names = path_list(path,mask_present,category)
+# train_transforms = Compose(
+#     [
+#         LoadImage(image_only=True),
+#         EnsureChannelFirst(),
+#         ScaleIntensity(),
+#         RandRotate(range_x=np.pi / 12, prob=0.5, keep_size=True),
+#         RandFlip(spatial_axis=0, prob=0.5),
+#         RandZoom(min_zoom=0.9, max_zoom=1.1, prob=0.5),
+#     ]
+# )
 
-y_pred_trans = Compose([Activations(softmax=True)])
-y_trans = Compose([AsDiscrete(to_onehot=num_class)])
+# val_transforms = Compose(
+#     [LoadImage(image_only=True), EnsureChannelFirst(), ScaleIntensity()])
+
+# y_pred_trans = Compose([Activations(softmax=True)])
+# y_trans = Compose([AsDiscrete(to_onehot=num_class)])
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--path", "-p", dest="path", help="image path.", required=True)
+    parser.add_argument("--path", "-p", type=str, dest="path", help="image path.", required=True)
     parser.add_argument("--mask", "-mp", dest="masks", default=False, help="Are there masks in the folders", required=True)
     parser.add_argument("--show_samples","-ss", dest="samples", default=False, help="image output width in pixels")
     parser.add_argument("--batch_size", "-bs", dest="batch_size", type=int,default=2, help="Batch_size")
     parser.add_argument("--epochs", "-ep", dest="epochs", type=int, default=2, help="Number of epochs")
 
     args = parser.parse_args()
+    print(args)
     
     mask_present = args.masks
     path = args.path
@@ -93,6 +93,9 @@ def main():
 
     image_files_list = []
     image_class = []
+
+    print_config()
+    set_determinism(seed=0)
 
     data_files, num_class, class_names = path_list(path,mask_present)
     num_each = [len(data_files[i]) for i in range(num_class)]
