@@ -51,7 +51,8 @@ def path_list(path,mask_present,category='images'):
             data_files = [
             [
                 
-                    x for x in os.listdir(os.path.join(data_dir, class_names[i])) if not (x.endswith('_mask.png') or x.endswith('_mask_1.png'))
+                    os.path.join(data_dir, class_names[i], x) 
+                    for x in os.listdir(os.path.join(data_dir, class_names[i])) if not (x.endswith('_mask.png') or x.endswith('_mask_1.png'))
                 
             ]
             for i in range(num_class)
