@@ -4,20 +4,27 @@ import pandas as pd
 path = 'G:\WORK_2022\IPPE\Dataset_BUSI_with_GT'
 classes = os.listdir('G:\WORK_2022\IPPE\Dataset_BUSI_with_GT')
 
-data_dir = 'G:\WORK_2022\IPPE\Dataset_BUSI_with_GT'
-class_names = sorted(x for x in os.listdir(data_dir) if os.path.isdir(os.path.join(data_dir, x)))
-class_names
+#
+def path_list(path):
+    '''
+    Takes in a path to a folder that has sub folders for each class of image data
+    Returns a list of lists for each class: index 0 corresponds to a list containing 
+    paths for images belonging to the first alphabetical class.
+    '''
 
-num_class = len(class_names)
-data_files = [
-    [
-        x
-        for x in os.listdir(os.path.join(data_dir, class_names[i]))
+    data_dir = path
+    class_names = sorted(x for x in os.listdir(data_dir) if os.path.isdir(os.path.join(data_dir, x)))
+    class_names
+    num_class = len(class_names)
+    data_files = [
+        [
+            x
+            for x in os.listdir(os.path.join(data_dir, class_names[i]))
+        ]
+        for i in range(num_class)
     ]
-    for i in range(num_class)
-]
-
-data_files[0][:15]
+    print(data_files[0][:15])
+    return data_files
 
 # If there are masks, we separate them from the images in the folder
 masks = [
