@@ -75,13 +75,14 @@ from utils import *
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--path", "-p", type=str, dest="path", help="image path.", required=True)
-    parser.add_argument("--mask", "-mp", dest="masks", default=False, help="Are there masks in the folders", required=True)
-    parser.add_argument("--show_samples","-ss", dest="samples", default=False, help="image output width in pixels")
+    parser.add_argument("--path", "-p", type=str, dest="path", help="image path.")
+    parser.add_argument("--mask", "-mp", type=bool, dest="masks", default=False, help="Are there masks in the folders")
+    parser.add_argument("--show_samples","-ss", type=bool, dest="samples", default=False, help="image output width in pixels")
     parser.add_argument("--batch_size", "-bs", dest="batch_size", type=int,default=2, help="Batch_size")
     parser.add_argument("--epochs", "-ep", dest="epochs", type=int, default=2, help="Number of epochs")
 
     args = parser.parse_args()
+    print("################### Arguments chosen ####################")
     print(args)
     
     mask_present = args.masks
@@ -94,6 +95,7 @@ def main():
     image_files_list = []
     image_class = []
 
+    print("################### Monai configuration ####################")
     print_config()
     set_determinism(seed=0)
 
